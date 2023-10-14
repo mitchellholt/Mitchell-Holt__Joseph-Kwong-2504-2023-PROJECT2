@@ -7,7 +7,7 @@ function next_arrival_duration(state::NetworkState, q::Int)
 end
 
 function next_service_duration(state::NetworkState, q::Int) 
-    return rand(rate_scv_gamma(state.parameters.mu_array[q], state.parameters.c_s))
+    return rand(rate_scv_gamma(state.parameters.mu_vector[q], state.parameters.c_s))
 end
 
 function next_off_duration(state::NetworkState) 
@@ -21,6 +21,6 @@ end
 function next_location(state::NetworkState, q::Int)
     L = state.parameters.L 
     P = state.parameters.P
-    weights = [P[q:];[1 - sum(P[q:])]]
+    weights = [P[q,:];[1 - sum(P[q,:])]]
     return sample(1:L+1, Weights(weights))
 end

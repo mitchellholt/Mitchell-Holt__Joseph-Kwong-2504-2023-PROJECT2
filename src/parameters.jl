@@ -5,7 +5,8 @@ struct NetworkParameters
     alpha_vector::Vector{Float64} 
     mu_vector::Vector{Float64} 
     P::Matrix{Float64} 
-    c_s::Float64 = 1.0 
-    gamma_1::Float64 = (10^-8) 
-    gamma_2::Float64 = 1.0 
+    c_s::Float64 
+    gamma_1::Float64 
+    gamma_2::Float64 
+    #NetworkParameters(a,b,c,d,e,f,g) = new(a,b,c,d,e,f,g)
 end
