@@ -1,7 +1,7 @@
 module GeneralizedUnreliableJacksonSim
 
 import Base: isless
-using StatsBase, Distributions, Random,DataStructures, LinearAlgebra
+using StatsBase, Distributions, Random,DataStructures, LinearAlgebra, Accessors, Parameters
 include("parameters.jl")
 include("state.jl")
 include("sampling.jl")
@@ -9,7 +9,7 @@ include("events.jl")
 
 
 
-export NetworkParameters, NetworkState, next_location, sim_net
+export NetworkParameters, NetworkState, next_location, sim_net, set_scenario, compute_lambda, compute_rho
 
 function sim_net(parameters::NetworkParameters; max_time = 10^6, warm_up_time = 10^4, seed::Int64 = 42)
     Random.seed!(seed)
@@ -30,12 +30,12 @@ function sim_net(parameters::NetworkParameters; max_time = 10^6, warm_up_time = 
     end
 
     while true
+        #@show timed_event_heap
         timed_event = pop!(timed_event_heap)
         time = timed_event.time
-
         #show(state, time)
         new_timed_events = process_event(time, state, timed_event.event)
-
+        
         isa(timed_event.event, EndSimEvent) && break
 
         for nte in new_timed_events

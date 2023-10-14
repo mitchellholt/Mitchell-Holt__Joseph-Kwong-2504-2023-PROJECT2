@@ -37,6 +37,7 @@ end
 
 function process_event(time::Float64, state::NetworkState, event::ArrivalEvent)
     q = event.q
+    #@show q
     state.queues[q] += 1
     state.arrivals[q] += 1
     new_timed_events = TimedEvent[]
@@ -48,6 +49,39 @@ function process_event(time::Float64, state::NetworkState, event::ArrivalEvent)
     end
     return new_timed_events
 end
+
+
+ 
+function process_event(time::Float64, state::NetworkState, event::EndOfServiceEvent)
+    q = event.q
+    new_timed_events = TimedEvent[]
+
+    state.queues[q] -= 1
+    
+
+    if state.queues[q] > 0
+        push!(new_timed_events, TimedEvent(EndOfServiceEvent(q), time + next_service_duration(state, q)))
+    end
+
+    next_q = next_location(state, q)
+    #@show q, next_q
+    if next_q <= state.parameters.L 
+        state.queues[next_q] += 1
+        state.arrivals[next_q] += 1
+
+        if state.queues[next_q] == 1
+            push!(new_timed_events, TimedEvent(EndOfServiceEvent(next_q), time + next_service_duration(state, next_q)))
+        end
+    end
+
+    return new_timed_events
+end
+
+
+
+
+
+
 
 function process_event(time::Float64, state::NetworkState, event::ServerOffEvent)
     q = event.q
@@ -66,30 +100,6 @@ function process_event(time::Float64, state::NetworkState, event::ServerOnEvent)
     push!(new_timed_events, TimedEvent(ServerOffEvent(q), time + next_off_duration(state)))
     return new_timed_events
 end
- 
-function process_event(time::Float64, state::NetworkState, event::EndOfServiceEvent)
-    q = event.q
-    new_timed_events = TimedEvent[]
-
-    state.queues[q] -= 1
-
-    if state.queues[q] > 0
-        push!(new_timed_events, TimedEvent(EndOfServiceEvent(q), time + next_service_duration(state, q)))
-    end
-
-    next_q = next_location(state, q)
-    if next_q <= state.parameters.L 
-        state.queues[next_q] += 1
-        state.arrivals[next_q] += 1
-        if state.queues[q] == 1
-            push!(new_timed_events, TimedEvent(EndOfServiceEvent(next_q), time + next_service_duration(state, q)))
-        end
-    end
-
-    return new_timed_events
-end
-
-
 
 
 

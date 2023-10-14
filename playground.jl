@@ -1,21 +1,19 @@
 include("src/simulation.jl")
 
-using .GeneralizedUnreliableJacksonSim, LinearAlgebra
+include("test/scenarios.jl")
+using .GeneralizedUnreliableJacksonSim
 
-L = 3
-alpha_vector = [1,1,0.1]
-mu_vector = [2,3,0.5]
-P = [0 0.5 0;
-    0 0 0.5;
-    0.5 0 0]
-c_s = 1
-gamma_1 = 0
-gamma_2 = 1
-scenario = NetworkParameters(L, alpha_vector, mu_vector, P, c_s, gamma_1, gamma_2)
 
-sim_net(scenario)
+plot_theoretical_mean_queue_length(parameters:NetworkParameters)
+    rho_stars = 0.1:0.01:0.9
+    theoretical_mean_queue_lengths = zeros(length(rho_stars))
 
-# theoretical arrival rate
-lambda = (I - scenario.P') \ scenario.alpha_vector
+    for (i, rho_star) in enumerate(rho_stars)
+        rho = compute_rho(set_scenario(parameters, rho_star))
+        theoretical_mean_queue_lengths[i] = sum(rho ./ (1 .- rho))
+    end
 
-@show lambda
+    plot(rho_stars, theoretical_mean_queue_lengths)
+end
+
+plot_theoretical_mean_queue_length(scenario1)
