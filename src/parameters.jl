@@ -8,5 +8,4 @@ struct NetworkParameters
     c_s::Float64 
     gamma_1::Float64 
     gamma_2::Float64 
-    #NetworkParameters(a,b,c,d,e,f,g) = new(a,b,c,d,e,f,g)
 end
