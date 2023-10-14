@@ -21,8 +21,11 @@ end
 ##plot_theoretical_mean_queue_length(scenario3, 3)
 #plot_theoretical_mean_queue_length(scenario4, 4)
 
-sim_net(scenario3)
-@show compute_lambda(scenario3)
+scenario = set_scenario(scenario4, 0.8)
+sim_net(scenario)
+@show compute_lambda(scenario)
+#sim_net(scenario3)
+#@show compute_lambda(scenario4)
 #@show scenario3.P
 #@show scenario3.alpha_vector
 #@show (I - scenario1.P')  * [0.5,0.5,0.5]

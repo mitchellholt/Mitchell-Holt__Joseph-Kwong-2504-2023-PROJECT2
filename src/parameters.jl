@@ -19,6 +19,10 @@ function compute_rho(parameters::NetworkParameters)
     return lambda ./ parameters.mu_vector  
 end
 
+function compute_R(parameters::NetworkParameters) 
+    return parameters.gamma_2/(parameters.gamma_1 + parameters.gamma_2)
+end
+
 
 function maximal_alpha_scaling(parameters::NetworkParameters)
     lambda_base = (I - parameters.P') \ parameters.alpha_vector  
@@ -26,14 +30,16 @@ function maximal_alpha_scaling(parameters::NetworkParameters)
     return minimum(1 ./ rho_base)
 end
 
-function set_scenario(parameters::NetworkParameters, rho::Float64, c_s::Float64=1.0)
+function set_scenario(parameters::NetworkParameters, rho::Float64, c_s::Float64=1.0, R::Float64 = 1.0)
     (rho <= 0 || rho >= 1) && error("Rho is out of range")
+    (R ≤ 0 || R > 1) && error("R is out of range") 
     max_scaling = maximal_alpha_scaling(parameters)
+    parameters = @set parameters.gamma_1 = parameters.gamma_2 * (1-R)/R
     parameters = @set parameters.alpha_vector = parameters.alpha_vector * max_scaling * rho
     parameters = @set parameters.c_s = c_s
     return parameters
 end
 
 function service_capacity(parameters::NetworkParameters) 
-    return (parameters.gamma_2/(parameters.gamma_1 + parameters.gamma_2)) * parameters.mu_vector
+    return compute_R(parameters) * parameters.mu_vector
 end
