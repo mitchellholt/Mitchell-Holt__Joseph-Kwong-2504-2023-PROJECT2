@@ -1,4 +1,4 @@
-include("../src/generalized_unreliable_jackson_sim.jl")
+include("../src/simulation.jl")
 
 using Main.GeneralizedUnreliableJacksonSim
 
