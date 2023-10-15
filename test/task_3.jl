@@ -7,21 +7,17 @@ function plot_theoretical_actual_no_breakdown(
     simulation_results = Vector{Float64}(undef, length(rho_stars))
     theoretical_results = Vector{Float64}(undef, length(rho_stars))
 
-    # define callback out here because it is expensive to create and GC
-    riemann_sum = 0
-    prev_time = warm_up_time
-    function callback(state :: NetworkState, time :: Float64)
-        riemann_sum += sum(state.queues) * (time - prev_time)
-        prev_time = time
-    end
-
-    for (i, r) in enumerate(rho_stars)
+    # turn on pro gamer mode, run with `--threads n` for n threads
+    @threads for (i, r) in collect(enumerate(rho_stars))
         params = set_scenario(parameters, r)
 
         # SIMULATION
-        # reset variables for callback
         riemann_sum = 0
         prev_time = warm_up_time
+        function callback(state :: NetworkState, time :: Float64)
+            riemann_sum += sum(state.queues) * (time - prev_time)
+            prev_time = time
+        end
 
         # assume we actually do reach steady state after warm-up time
         sim_net(params, max_time = max_time, warm_up_time = warm_up_time,
