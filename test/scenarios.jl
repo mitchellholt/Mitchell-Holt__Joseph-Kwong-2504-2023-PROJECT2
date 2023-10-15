@@ -1,6 +1,3 @@
-
-
-
 scenario1 = NetworkParameters(  L=3, 
                                 alpha_vector = [0.5, 0, 0],
                                 mu_vector = ones(3),

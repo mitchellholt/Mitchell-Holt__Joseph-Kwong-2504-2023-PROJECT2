@@ -11,7 +11,10 @@ include("events.jl")
 
 export NetworkParameters, NetworkState, next_location, sim_net, set_scenario, compute_lambda, compute_rho
 
-function sim_net(parameters::NetworkParameters; max_time = 10^6, warm_up_time = 10^4, seed::Int64 = 42)
+function sim_net(parameters::NetworkParameters;
+        max_time = 10^6, warm_up_time = 10^4, seed::Int64 = 42,
+        callback = _ -> nothing)
+
     Random.seed!(seed)
 
     state = NetworkState(parameters)
@@ -41,8 +44,10 @@ function sim_net(parameters::NetworkParameters; max_time = 10^6, warm_up_time = 
         for nte in new_timed_events
             push!(timed_event_heap, nte)
         end    
+
+        callback(state)
     end
-    @show state.arrivals ./ max_time
+    # @show state.arrivals ./ max_time
 end
 
 end;
