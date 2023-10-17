@@ -1,0 +1,158 @@
+\documentclass{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{tcolorbox}
+\usepackage{fancyvrb}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tikz, wasysym, tikz-cd}
+\usepackage{mathtools} %xrightarrow
+\usetikzlibrary{automata,arrows.meta,positioning,calc,decorations.pathmorphing}
+\usepackage{etoolbox} % setcounter{counter}{num}
+\usepackage{enumitem} % \begin{enumerate}[label=(\alph*)]
+\usepackage{xcolor}
+
+% QUIVER STUFF
+% A TikZ style for curved arrows of a fixed height, due to AndréC.
+\tikzset{curve/.style={settings={#1},to path={(\tikztostart)
+    .. controls ($(\tikztostart)!\pv{pos}!(\tikztotarget)!\pv{height}!270:(\tikztotarget)$)
+    and ($(\tikztostart)!1-\pv{pos}!(\tikztotarget)!\pv{height}!270:(\tikztotarget)$)
+    .. (\tikztotarget)\tikztonodes}},
+    settings/.code={\tikzset{quiver/.cd,#1}
+        \def\pv##1{\pgfkeysvalueof{/tikz/quiver/##1}}},
+    quiver/.cd,pos/.initial=0.35,height/.initial=0}
+% TikZ arrowhead/tail styles.
+\tikzset{tail reversed/.code={\pgfsetarrowsstart{tikzcd to}}}
+\tikzset{2tail/.code={\pgfsetarrowsstart{Implies[reversed]}}}
+\tikzset{2tail reversed/.code={\pgfsetarrowsstart{Implies}}}
+% TikZ arrow styles.
+\tikzset{no body/.style={/tikz/dash pattern=on 0 off 1mm}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\numberwithin{theorem}{section}
+\newtheorem{lemma}{Lemma}
+%\numberwithin{lemma}{section}
+\newtheorem{example}{Example}
+\numberwithin{example}{section}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\numberwithin{definition}{section}
+\newtheorem{problem}{Problem}
+%\numberwithin{problem}{section}
+
+\newenvironment{solution}
+  {\renewcommand\qedsymbol{$\blacksquare$}\begin{proof}[Solution]}
+  {\end{proof}}
+
+\newtcolorbox{codebox}[1][] {
+    colback = black!2!white,
+    colframe = black,
+    sharp corners,
+    title = \texttt{#1}
+}
+
+\newtcolorbox{problembox} {
+    colback = white,
+    colframe = black,
+    sharp corners
+}
+
+\newtcolorbox{defbox} {
+    colback = blue!5!white,
+    colframe = blue!75!black,
+    sharp corners
+}
+
+\newtcolorbox{lemmabox} {
+    colback = green!5!white,
+    colframe = green!75!black,
+    sharp corners
+}
+
+\newtcolorbox{theorembox} {
+    colback = red!5!white,
+    colframe = red!75!black,
+    sharp corners
+}
+
+\newcommand{\Sup}{\text{Sup}}
+\newcommand{\Inf}{\text{Inf}}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\cod}{cod}
+\DeclareMathOperator{\id}{id}
+\newcommand{\angles}[1]{\left<#1\right>}
+\newcommand{\catname}[1]{{\normalfont\textbf{#1}}}
+\newcommand{\GL}{\text{GL}}
+\newcommand{\SL}{\text{SL}}
+\newcommand{\sg}{\text{sg}}
+\newcommand{\dd}{\mathop{}\!d}
+\newcommand\defeq{\stackrel{\mathclap{\normalfont\mbox{\scriptsize def}}}{=}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \set, my favourite
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclarePairedDelimiterX\set[1]\lbrace\rbrace{\def\given{\;\delimsize\vert\;}#1}
+ 
+\newcommand{\naturalto}{%
+  \mathrel{\vbox{\offinterlineskip
+    \mathsurround=0pt
+    \ialign{\hfil##\hfil\cr
+      \normalfont\scalebox{1.2}{.}\cr
+%      \noalign{\kern-.05ex}
+      $\longrightarrow$\cr}
+  }}%
+}
+
+% Actions to be done at the start of a new section, so just made a new macro
+\newcommand{\Section}[1]{\section{#1} \setcounter{equation}{0}}
+
+\setlength{\parindent}{0pt}
+
+\title{Project 2 - 2023}
+\author{Mitchell Holt (46977557), Joseph Kwong (46977164)}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section{Perspective Seminar}
+
+\section{GitHub Repository}
+
+The entire source code for the project can be found on the
+\href{https://github.com/mitchellholt/Mitchell-Holt__Joseph-Kwong-2504-2023-PROJECT2}
+{\color{blue}GitHub repository}.
+
+\section{Usage}
+
+\section{Code}
+
+\section{Task 1}
+We have made the following assumptions regarding our simulation:
+\begin{itemize}
+    \item Every simulation reaches a steady state by the end of the warm-up time.
+\end{itemize}
+
+\section{Task 2}
+\section{Task 3}
+\section{Task 4}
+
+\begin{codebox}
+    \begin{Verbatim}
+x = x_poly(Polynomial)
+p1 = 2x^3 + 4x^2 - 3x
+p2 = 2x^4 - 4x^2 - 3x + 3
+
+@show p1*p2
+@show p1^3
+    \end{Verbatim}
+\end{codebox}
+
+\end{document}
