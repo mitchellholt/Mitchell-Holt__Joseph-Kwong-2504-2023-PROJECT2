@@ -50,7 +50,10 @@ function process_event(time::Float64, state::NetworkState, event::ArrivalEvent)
     return new_timed_events
 end
 
- 
+
+
+
+
 function process_event(time::Float64, state::NetworkState, event::EndOfServiceEvent)
     q = event.q
     new_timed_events = TimedEvent[]
@@ -74,6 +77,7 @@ function process_event(time::Float64, state::NetworkState, event::EndOfServiceEv
 
     return new_timed_events
 end
+
 
 
 function process_event(time::Float64, state::NetworkState, event::ServerOffEvent)

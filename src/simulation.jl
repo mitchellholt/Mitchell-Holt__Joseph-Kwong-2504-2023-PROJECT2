@@ -11,13 +11,12 @@ include("events.jl")
 
 export NetworkParameters, NetworkState, next_location, sim_net, set_scenario, compute_lambda, compute_rho
 
-function sim_net(parameters::NetworkParameters;
+function sim_net(parameters::NetworkParameters; state = NetworkState(parameters),
         max_time = 10^6, warm_up_time = 10^4, seed::Int64 = 42,
         callback = (_, _) -> nothing)
 
     Random.seed!(seed)
 
-    state = NetworkState(parameters)
     timed_event_heap = BinaryMinHeap{TimedEvent}()
 
     push!(timed_event_heap, TimedEvent(EndSimEvent(), max_time))

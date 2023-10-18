@@ -17,12 +17,13 @@ function plot_theoretical_mean_queue_length(parameters::NetworkParameters, scena
         title = "Scenario $(scenario_number)",
         xlabel = "rho star",
         ylabel = "Mean queue lengths")
-
-    savefig("img/task_2_scenario$(scenario_number).png") 
 end
 
 plot_theoretical_mean_queue_length(scenario1, 1)
+savefig("img/task_2_scenario_1.png") 
 plot_theoretical_mean_queue_length(scenario2, 2)
+savefig("img/task_2_scenario_2.png") 
 plot_theoretical_mean_queue_length(scenario3, 3)
+savefig("img/task_2_scenario_3.png") 
 plot_theoretical_mean_queue_length(scenario4, 4)
-
+savefig("img/task_2_scenario_4.png") 

@@ -10,9 +10,10 @@ function plot_simulated_mean_queue_length(parameters::NetworkParameters, scenari
 
     simulation_results = Vector{Float64}(undef, length(rho_stars))
     theoretical_results = Vector{Float64}(undef, length(rho_stars))
+    absolute_relative_errors = Vector{Float64}(undef, length(rho_stars))
 
     for (i, r) in collect(enumerate(rho_stars)) 
-        new_parameters = set_scenario(parameters, r)
+        new_parameters = set_scenario(parameters, rho_star = r)
 
         riemann_sum = 0
         last_time = 0.0
@@ -29,10 +30,17 @@ function plot_simulated_mean_queue_length(parameters::NetworkParameters, scenari
 
         rho = compute_rho(new_parameters)
         theoretical_results[i] = sum(rho ./ (1 .- rho))
+
+        absolute_relative_errors[i] = abs((simulation_results[i] - theoretical_results[i]) / theoretical_results[i])
     end
-    plot(rho_stars, theoretical_results)
-    plot!(rho_stars, simulation_results)
+    
+    p1 = plot(rho_stars, theoretical_results)
+    p2 = plot(rho_stars, simulation_results) 
+    p3 = plot(rho_stars, absolute_relative_errors)
+
+    return p1,p2,p3
 end
 
-plot_simulated_mean_queue_length(scenario4, 4, max_time = 1000, warm_up_time = 100)
-savefig("img/task_3_scenario_4.png") 
+p1, p2,p3 = plot_simulated_mean_queue_length(scenario3, 3, max_time = 1000, warm_up_time = 100)
+plot(p3)
+savefig("img/task_3_scenario_1.png") 
