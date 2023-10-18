@@ -32,6 +32,7 @@ function sim_net(parameters::NetworkParameters; state = NetworkState(parameters)
     end
 
     time = 0.0
+
     callback(state, time)
 
     while true
@@ -41,7 +42,6 @@ function sim_net(parameters::NetworkParameters; state = NetworkState(parameters)
         
         callback(state, time)
 
-        #show(state, time)
         isa(timed_event.event, EndSimEvent) && break
 
         for nte in new_timed_events
