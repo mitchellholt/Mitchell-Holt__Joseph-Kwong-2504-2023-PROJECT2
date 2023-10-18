@@ -31,7 +31,7 @@ end
 
 
 function process_event(time::Float64, state::State, es_event::EndSimEvent)
-    println("Ending simulation at time $time.")
+    #println("Ending simulation at time $time.")
     return TimedEvent[]
 end
 

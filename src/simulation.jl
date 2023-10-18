@@ -32,22 +32,24 @@ function sim_net(parameters::NetworkParameters;
         end
     end
 
+    time = 0.0
+    callback(state, time)
+
     while true
-        #@show timed_event_heap
         timed_event = pop!(timed_event_heap)
         time = timed_event.time
-        #show(state, time)
         new_timed_events = process_event(time, state, timed_event.event)
         
+        callback(state, time)
+
         isa(timed_event.event, EndSimEvent) && break
 
         for nte in new_timed_events
             push!(timed_event_heap, nte)
         end    
 
-        time >= warm_up_time && callback(state, time)
+        
     end
-    # @show state.arrivals ./ max_time
 end
 
 end;
