@@ -12,7 +12,7 @@ function plot_simulated_R(parameters::NetworkParameters, scenario_number::Int)
     for (i, R) in enumerate(Rs)
         new_parameters = set_scenario(parameters, R = R)
     
-        riemann_sums = Vector{Float64}(undef, parameters.L)
+        riemann_sums = [0.0 for _ in 1:parameters.L]
         last_time = 0.0
     
         function record_integral(state::NetworkState, time::Float64)
@@ -25,6 +25,9 @@ function plot_simulated_R(parameters::NetworkParameters, scenario_number::Int)
         sim_net(new_parameters, max_time = max_time, callback = record_integral)
         
         for j in 1:min(parameters.L, 10)
+            if riemann_sums[j] > 1100
+                @show R
+            end
             simulated_Rs[j][i] = riemann_sums[j] / max_time
         end
         
