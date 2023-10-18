@@ -28,7 +28,7 @@ function maximal_alpha_scaling(parameters::NetworkParameters)
     return minimum(1 ./ rho_base)
 end
 
-function set_scenario(parameters::NetworkParameters; rho_star::Float64, c_s::Float64=1.0, R::Float64 = 1.0)
+function set_scenario(parameters::NetworkParameters; rho_star::Float64=0.5, c_s::Float64=1.0, R::Float64 = 1.0)
     (rho_star <= 0 || rho_star >= 1) && error("Rho is out of range")
     (R <= 0 || R > 1) && error("R is out of range")
     max_scaling = maximal_alpha_scaling(parameters)

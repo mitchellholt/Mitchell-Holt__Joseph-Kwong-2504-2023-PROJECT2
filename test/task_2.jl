@@ -8,7 +8,7 @@ function plot_theoretical_mean_queue_length(parameters::NetworkParameters, scena
     theoretical_mean_queue_lengths = zeros(length(rho_stars))
 
     for (i, rho_star) in enumerate(rho_stars)
-        rho = compute_rho(set_scenario(parameters, rho_star))
+        rho = compute_rho(set_scenario(parameters, rho_star = rho_star))
         theoretical_mean_queue_lengths[i] = sum(rho ./ (1 .- rho))
     end
 
@@ -16,7 +16,7 @@ function plot_theoretical_mean_queue_length(parameters::NetworkParameters, scena
         theoretical_mean_queue_lengths, 
         title = "Scenario $(scenario_number)",
         xlabel = "rho star",
-        ylabel = "Mean queue lengths")
+        ylabel = "mean total queue length")
 end
 
 plot_theoretical_mean_queue_length(scenario1, 1)

@@ -5,9 +5,10 @@ include("scenarios.jl")
 
 
 scenarios = [scenario1, scenario2, scenario3, scenario4]
-c_s_values = [0.2,0.5,1,2,5]
+c_s_values = [0.1,0.5,1,2,4]
 max_time = 10^5
 rho_star = 0.1
+
 for (i, scenario) in enumerate(scenarios)
     println()
     println("Scenario $(i):")

@@ -41,13 +41,12 @@ function sim_net(parameters::NetworkParameters; state = NetworkState(parameters)
         
         callback(state, time)
 
+        #show(state, time)
         isa(timed_event.event, EndSimEvent) && break
 
         for nte in new_timed_events
             push!(timed_event_heap, nte)
-        end    
-
-        
+        end     
     end
 end
 
