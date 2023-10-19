@@ -33,7 +33,7 @@ end
 
 
 mutable struct NetworkStateCustomers <: State
-    queues::Vector{Queue{Customer}} # customers in each queue
+    queues::Vector{Deque{Customer}} # customers in each queue
     arrivals::Vector{Int64} # total number of arrivals at each station over the simulation
     server_status::Vector{Bool} # whether servers are on or off
     additional_times::Vector{Float64} 
@@ -41,10 +41,10 @@ mutable struct NetworkStateCustomers <: State
     parameters::NetworkParameters
     customers :: Set{Customer}
 
-    function NetworkState(parameters::NetworkParameters)
+    function NetworkStateCustomers(parameters::NetworkParameters)
         L = parameters.L
         return new(
-            [Queue{Customer}() for _ in 1:L],
+            [Deque{Customer}() for _ in 1:L],
             zeros(Int, L),
             ones(Bool, L),
             zeros(Float64, L),

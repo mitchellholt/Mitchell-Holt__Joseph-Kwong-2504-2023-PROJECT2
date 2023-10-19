@@ -9,7 +9,7 @@ include("events.jl")
 
 
 
-export NetworkParameters, NetworkState, next_location, sim_net, set_scenario, compute_lambda, compute_rho
+export NetworkParameters, NetworkState, NetworkStateCustomers, next_location, sim_net, sim_net_customers, set_scenario, compute_lambda, compute_rho
 
 function sim_net(parameters::NetworkParameters; state = NetworkState(parameters),
         max_time = 10^6, warm_up_time = 10^4, seed::Int64 = 42,
@@ -50,10 +50,8 @@ function sim_net(parameters::NetworkParameters; state = NetworkState(parameters)
     end
 end
 
-end;
 
-
-function sim_net_customers(parameters::NetworkStateCustomers;
+function sim_net_customers(parameters :: NetworkParameters;
         state = NetworkStateCustomers(parameters),
         max_time = 10^6, warm_up_time = 10^4, seed::Int64 = 42,
         callback = (_, _) -> nothing)
@@ -68,7 +66,7 @@ function sim_net_customers(parameters::NetworkStateCustomers;
         if parameters.alpha_vector[q] > 0 
             next_time = next_arrival_duration(state, q)
             push!(timed_event_heap,
-                TimedEvent(ArrivalEvent(q, Customer(next_time), next_time))
+                TimedEvent(CustomerArrivalEvent(q, Customer(next_time)), next_time))
         end
 
         if parameters.gamma_1 > 0
@@ -95,3 +93,5 @@ function sim_net_customers(parameters::NetworkStateCustomers;
         end
     end
 end
+
+end;

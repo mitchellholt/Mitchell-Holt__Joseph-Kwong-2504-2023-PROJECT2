@@ -65,7 +65,7 @@ function process_event(time::Float64, state::NetworkStateCustomers, event::Custo
     if !(event.customer in state.customers)
         push!(state.customers, event.customer)
     end
-    state.queues[q].push!(event.customer)
+    push!(state.queues[q], event.customer)
     state.arrivals[q] += 1
     
     next_time = time + next_arrival_duration(state, q)
@@ -73,7 +73,7 @@ function process_event(time::Float64, state::NetworkStateCustomers, event::Custo
         TimedEvent(CustomerArrivalEvent(q, Customer(next_time)), next_time)
     ]
 
-    if state.queues[q] == 1
+    if length(state.queues[q]) == 1
         # we just added the only person to the queue, so they can start being
         # served now. Add an end of service event.
         state.additional_times[q] = 0
@@ -88,7 +88,6 @@ end
 function process_event(time::Float64, state::NetworkState, event::EndOfServiceEvent)
     q = event.q
     new_timed_events = TimedEvent[]
-
     
     if state.additional_times[q] == 0
         state.queues[q] -= 1
@@ -121,12 +120,11 @@ end
 function process_event(time::Float64, state::NetworkStateCustomers, event::EndOfServiceEvent)
     q = event.q
     new_timed_events = TimedEvent[]
-
     
     if state.additional_times[q] == 0
         served_customer = popfirst!(state.queues[q])
 
-        if state.queues[q] > 0
+        if length(state.queues[q]) > 0
             # start serving the next customer
             push!(new_timed_events,
                 TimedEvent(EndOfServiceEvent(q), time + next_service_duration(state, q)))
@@ -173,6 +171,20 @@ function process_event(time::Float64, state::NetworkState, event::ServerOnEvent)
     state.server_status[q] = true
 
     if state.queues[q] >= 1
+        state.additional_times[q] = time - state.last_off[q]
+    end
+
+    push!(new_timed_events, TimedEvent(ServerOffEvent(q), time + next_off_duration(state)))
+    return new_timed_events
+end
+
+
+function process_event(time::Float64, state::NetworkStateCustomers, event::ServerOnEvent)
+    q = event.q
+    new_timed_events = TimedEvent[]
+    state.server_status[q] = true
+
+    if length(state.queues[q]) >= 1
         state.additional_times[q] = time - state.last_off[q]
     end
 

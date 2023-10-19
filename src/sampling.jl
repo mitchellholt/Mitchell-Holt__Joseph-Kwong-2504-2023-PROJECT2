@@ -2,7 +2,7 @@
 rate_scv_gamma(rate::Float64, scv::Float64) = Gamma(1/scv, scv/rate)
 
 
-function next_arrival_duration(state::NetworkState, q::Int) 
+function next_arrival_duration(state::S, q::Int) where {S <: State}
     return rand(Exponential(1/state.parameters.alpha_vector[q]))
 end
 
