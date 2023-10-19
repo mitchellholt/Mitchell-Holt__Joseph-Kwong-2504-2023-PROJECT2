@@ -16,8 +16,7 @@ mutable struct NetworkState <: State
 end
 
 function show(state::NetworkState, time::Float64)
+    println()
     println("time: \t\t $(time)")
     println("queues: \t $(state.queues)")
-    println("servers: \t $(state.server_status)")
-    println()
 end

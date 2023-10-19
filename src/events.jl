@@ -45,6 +45,7 @@ function process_event(time::Float64, state::NetworkState, event::ArrivalEvent)
     # we just added the only person to the queue, so they can start being served
     # now. Add an end of service event.
     if state.queues[q] == 1
+        state.additional_times[q] = 0
         state.last_off[q] = time
         push!(new_timed_events, TimedEvent(EndOfServiceEvent(q), time + next_service_duration(state, q)))
     end
@@ -74,6 +75,7 @@ function process_event(time::Float64, state::NetworkState, event::EndOfServiceEv
 
             if state.queues[next_q] == 1
                 state.last_off[next_q] = time
+                state.additional_times[next_q] = 0
                 push!(new_timed_events, TimedEvent(EndOfServiceEvent(next_q), time + next_service_duration(state, next_q)))
             end
         end
