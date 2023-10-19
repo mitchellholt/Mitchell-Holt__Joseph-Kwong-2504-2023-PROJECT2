@@ -25,9 +25,3 @@ for (i, scenario) in enumerate(scenarios)
         println("The sum of square errors is: ", sum_square_errors)
     end
 end
-
-
-
-
-
-
