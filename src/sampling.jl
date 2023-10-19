@@ -6,7 +6,7 @@ function next_arrival_duration(state::NetworkState, q::Int)
     return rand(Exponential(1/state.parameters.alpha_vector[q]))
 end
 
-function next_service_duration(state::NetworkState, q::Int) 
+function next_service_duration(state::S, q::Int) where {S <: State}
     return rand(rate_scv_gamma(state.parameters.mu_vector[q], state.parameters.c_s))
 end
 
