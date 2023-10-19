@@ -42,12 +42,14 @@ function plot_mean_queue_length_different_R_and_c_s(parameters::NetworkParameter
         for (i, r) in collect(enumerate(rho_stars)) 
             new_parameters = set_scenario(parameters, rho_star = r, c_s = c_s, R = 0.75)
 
-            riemann_sum = 0
-            last_time = 0.0
+            riemann_sum = 0.0
+            prev_total = 0.0
+            prev_time = 0.0
 
             function record_integral(state::NetworkState, time::Float64)
-                (time >= warm_up_time) && (riemann_sum += sum(state.queues) * (time - last_time))
-                last_time = time
+                (time >= warm_up_time) && (riemann_sum += prev_total * (time - prev_time))
+                prev_total = sum(state.queues)
+                prev_time = time
             end
 
             sim_net(new_parameters, max_time = max_time, warm_up_time = warm_up_time,
@@ -71,5 +73,5 @@ for (i, scenario) in enumerate(scenarios)
     p1, p2 = plot_mean_queue_length_different_R_and_c_s(scenario, i)
     savefig(p1,"img/task_4_scenario_$(i)_different_R.png") 
     savefig(p2,"img/task_4_scenario_$(i)_different_c_s.png") 
+    println("Finished scenario $i")
 end
-
