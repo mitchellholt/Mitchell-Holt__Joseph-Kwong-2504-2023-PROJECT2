@@ -1,6 +1,5 @@
 include("../src/simulation.jl")
 using .GeneralizedUnreliableJacksonSim, Plots, Parameters, Accessors, Random, LinearAlgebra
-import Base.Threads.@threads
 
 include("scenarios.jl")
 
