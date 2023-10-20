@@ -20,12 +20,23 @@ include("test/task_4.jl")
 include("test/task_5.jl")
 
 scenarios = [scenario1, scenario2, scenario3, scenario4]
-
+println()
+println("In task 3 test 4, we plot the simulated mean total queue length
+against rho^*, for different values of c_s and R.")
 for (i, scenario) in enumerate(scenarios)
-    p = plot_R_versus_mean_queue_length(scenario, i)
-    savefig(p,"img/task_3_test_4_scenario_$(i).png") 
-    println("Task 3 test 4 completed for scenario $(i).")
+    p1, p2 = plot_mean_queue_length_different_R_and_c_s(scenario, i)
+    savefig(p1,"img/task_4_scenario_$(i)_different_R.png") 
+    savefig(p2,"img/task_4_scenario_$(i)_different_c_s.png") 
+    println("Finished scenario $i")
 end
+
+
+for (i, scenario) in collect(enumerate(scenarios))
+    p = plot_simulated_R(scenario, i)
+    savefig(p,"img/task_3_test_3_scenario_$(i)_new.png")
+    println("Task 3 test 3 completed for scenario $(i).")
+end
+
 println("In task 2, we plot the theoretical total mean queue lengths for 
 different values of rho^*.")
 for (i, scenario) in enumerate(scenarios)
@@ -69,15 +80,7 @@ for (i, scenario) in enumerate(scenarios)
     println("Task 3 test 4 completed for scenario $(i).")
 end
 
-println()
-println("In task 3 test 4, we plot the simulated mean total queue length
-against rho^*, for different values of c_s and R.")
-for (i, scenario) in enumerate(scenarios)
-    p1, p2 = plot_mean_queue_length_different_R_and_c_s(scenario, i)
-    savefig(p1,"img/task_4_scenario_$(i)_different_R.png") 
-    savefig(p2,"img/task_4_scenario_$(i)_different_c_s.png") 
-    println("Finished scenario $i")
-end
+
 
 println()
 println("In task 5, we compute the first quartile, the median and the third 
