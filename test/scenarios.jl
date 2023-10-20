@@ -38,6 +38,7 @@ scenario3 = NetworkParameters(  L=5,
 """
 A large arbitrary network.
 """
+
 Random.seed!(0)
 L = 100
 P = rand(L,L)

@@ -19,7 +19,7 @@ function plot_mean_queue_length_different_R_and_c_s(parameters::NetworkParameter
     c_s_values = [0.1,0.5,1.0,2.0,4.0]
     R_values = [0.25, 0.75, 1.0]
     rho_stars = 0.1:0.01:0.9
-    max_time = 1000
+    max_time = 10000
     warm_up_time = 100
 
     data = []

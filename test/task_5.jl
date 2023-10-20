@@ -16,7 +16,7 @@ function estimate_q1_median_q3_customer_time(
     rho_star = 0.8
 
     customers = sim_net_customers(
-        set_scenario(parameters, rho_star = rho_star, c_s = c_s)).customers
+        set_scenario(parameters, rho_star = rho_star, c_s = c_s), max_time = 10000).customers
     data = [c.departure_time - c.arrival_time for c in customers if c.departure_time > 0]
 
     return nquantile(data, 4)[2:4]

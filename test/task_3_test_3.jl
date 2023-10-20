@@ -30,9 +30,6 @@ function plot_simulated_R(parameters::NetworkParameters, scenario_number::Int)
         sim_net(new_parameters, max_time = max_time, callback = record_integral)
         
         for j in 1:min(parameters.L, 10)
-            if riemann_sums[j] > 1100
-                @show R
-            end
             simulated_Rs[j][i] = riemann_sums[j] / max_time
         end
         

@@ -54,7 +54,7 @@ mutable struct Customer
 end
 
 """
-This mutable struct stores the state of a simulation, where we do NOT keep track
+This mutable struct stores the state of a simulation, where we keep track
 of individual customers.
 
     - queues is a vector of queues which stores the customers lined up in each queue.

@@ -6,8 +6,6 @@
 #############################################################################
 #############################################################################
 
-
-
 """
 A convenience function to make a Gamma distribution with desired rate 
 (inverse of shape) and SCV.
@@ -50,6 +48,5 @@ function next_location(state::State, q::Int)
     L = state.parameters.L 
     P = state.parameters.P
     weights = [P[q,:];[1 - sum(P[q,:])]]
-    #@show weights
     return sample(1:L+1, Weights(weights))
 end
