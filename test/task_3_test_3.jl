@@ -1,9 +1,14 @@
-include("../src/simulation.jl")
-using .GeneralizedUnreliableJacksonSim, Plots, Parameters, Accessors, Random, LinearAlgebra
+#############################################################################
+#############################################################################
+#
+# This file implements our solution for task 3 test 3.
+#                                                                               
+#############################################################################
+#############################################################################
 
-include("scenarios.jl")
-
-
+"""
+Returns a plot which shows the simulated R value for different theoretical R values.
+"""
 function plot_simulated_R(parameters::NetworkParameters, scenario_number::Int)
     Rs = 0.1:0.01:1
     simulated_Rs = [Vector{Float64}(undef, length(Rs)) for _ in 1:min(parameters.L, 10)]
@@ -39,11 +44,3 @@ function plot_simulated_R(parameters::NetworkParameters, scenario_number::Int)
 end
 
 
-scenarios = [scenario1,scenario2,scenario3,scenario4]
-
-for (i, scenario) in collect(enumerate(scenarios))
-    p = plot_simulated_R(scenario, i)
-    # TODO remove the _ in front of the filename once we happy with everything
-    savefig(p,"img/task_3_test_3_scenario_$(i).png")
-    println("Finished scenario $i")
-end

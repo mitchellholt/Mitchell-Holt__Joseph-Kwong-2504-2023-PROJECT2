@@ -1,8 +1,14 @@
-include("../src/simulation.jl")
-using .GeneralizedUnreliableJacksonSim, Plots, Parameters, Accessors, Random, LinearAlgebra
+#############################################################################
+#############################################################################
+#
+# This file implements our solution for task 2.
+#                                                                               
+#############################################################################
+#############################################################################
 
-include("scenarios.jl")
-
+"""
+Returns a plot of the theoretical total mean queue length for different values of rho^*.
+"""
 function plot_theoretical_mean_queue_length(parameters::NetworkParameters, scenario_number::Int)
     rho_stars = 0.1:0.01:0.9
     theoretical_mean_queue_lengths = zeros(length(rho_stars))
@@ -19,11 +25,4 @@ function plot_theoretical_mean_queue_length(parameters::NetworkParameters, scena
         ylabel = "mean total queue length")
 end
 
-plot_theoretical_mean_queue_length(scenario1, 1)
-savefig("img/task_2_scenario_1.png") 
-plot_theoretical_mean_queue_length(scenario2, 2)
-savefig("img/task_2_scenario_2.png") 
-plot_theoretical_mean_queue_length(scenario3, 3)
-savefig("img/task_2_scenario_3.png") 
-plot_theoretical_mean_queue_length(scenario4, 4)
-savefig("img/task_2_scenario_4.png") 
+

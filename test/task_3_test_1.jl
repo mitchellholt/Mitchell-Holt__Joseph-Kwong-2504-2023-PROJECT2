@@ -1,9 +1,20 @@
-include("../src/simulation.jl")
-using .GeneralizedUnreliableJacksonSim, Plots, Parameters, Accessors, Random, LinearAlgebra
-import Base.Threads.@threads
+#############################################################################
+#############################################################################
+#
+# This file implements our solution for task 3 test 1.
+#                                                                               
+#############################################################################
+#############################################################################
 
-include("scenarios.jl")
+"""
+Returns two plots, p1 and p2.
 
+The first plot p1 shows the simulated total mean queue length and the 
+theoretical result for different max times and values of rho^*.
+
+The second plot p2 shows the absolute relative error between the simulated and theoretical 
+results for different max times and values of rho^*.
+"""
 function plot_simulated_mean_queue_length(parameters::NetworkParameters, scenario_number::Int)
     rho_stars = 0.1:0.01:0.9
     max_times = [10^3,10^4,10^5]
@@ -60,11 +71,4 @@ function plot_simulated_mean_queue_length(parameters::NetworkParameters, scenari
     return p1, p2
 end
 
-scenarios = [scenario1,scenario2,scenario3,scenario4]
 
-for (i, scenario) in enumerate(scenarios)
-    p1, p2 = plot_simulated_mean_queue_length(scenario, i)
-    savefig(p1,"img/task_3_test_1_scenario_$(i)_simulated.png") 
-    savefig(p2,"img/task_3_test_1_scenario_$(i)_error.png") 
-    println("Finished scenario $i")
-end

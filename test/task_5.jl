@@ -1,8 +1,15 @@
-include("../src/simulation.jl")
-using .GeneralizedUnreliableJacksonSim, Plots, Parameters, Accessors, Random, LinearAlgebra, StatsBase
+#############################################################################
+#############################################################################
+#
+# This file implements the testing for task 5.
+#                                                                               
+#############################################################################
+#############################################################################
 
-include("scenarios.jl")
-
+"""
+Returns the first quantile, the median and the third quantile for the sojourn 
+time of a customer in the netowrk.
+"""
 function estimate_q1_median_q3_customer_time(
         parameters :: NetworkParameters, c_s :: Float64) :: Vector{Float64}
 
@@ -16,14 +23,4 @@ function estimate_q1_median_q3_customer_time(
 end
 
 
-scenarios = [scenario1, scenario2, scenario3, scenario4]
-c_s_s = [0.5, 1.0, 2.0]
 
-for (i, scenario) in enumerate(scenarios)
-    println("Scenario $(i):")
-    println("\t Q1 \t Median \t Q3")
-    for c_s in c_s_s
-        quantiles = estimate_q1_median_q3_customer_time(scenario, c_s)
-        println("c_s = $(c_s) \t $(quantiles[1]) \t $(quantiles[2]) \t $(quantiles[3])")
-    end
-end

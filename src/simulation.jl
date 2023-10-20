@@ -1,16 +1,29 @@
+#############################################################################
+#############################################################################
+#
+# This file defines the module GeneralizedUnreliableJacksonSim, and 
+# implements the main simulation loops.
+#                                                                               
+#############################################################################
+#############################################################################
+
 module GeneralizedUnreliableJacksonSim
 
 import Base: isless
 using StatsBase, Distributions, Random,DataStructures, LinearAlgebra, Accessors, Parameters
+
 include("parameters.jl")
 include("state.jl")
 include("sampling.jl")
 include("events.jl")
 
-
-
 export NetworkParameters, NetworkState, NetworkStateCustomers, next_location, sim_net, sim_net_customers, set_scenario, compute_lambda, compute_rho
 
+"""
+Simulates a generalised unreliable Jackson network with given parameters.
+
+This simulation does NOT keep track of individual customers.
+"""
 function sim_net(parameters::NetworkParameters; state = NetworkState(parameters),
         max_time = 10^6, warm_up_time = 10^4, seed::Int64 = 42,
         callback = (_, _) -> nothing)
@@ -50,7 +63,11 @@ function sim_net(parameters::NetworkParameters; state = NetworkState(parameters)
     end
 end
 
+"""
+Simulates a generalised unreliable Jackson network with given parameters.
 
+This simulation keeps track of individual customers.
+"""
 function sim_net_customers(parameters :: NetworkParameters;
         state = NetworkStateCustomers(parameters),
         max_time = 10^6, warm_up_time = 10^4, seed::Int64 = 42)

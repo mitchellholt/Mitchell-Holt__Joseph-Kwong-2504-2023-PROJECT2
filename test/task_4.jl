@@ -1,8 +1,20 @@
-include("../src/simulation.jl")
-using .GeneralizedUnreliableJacksonSim, Plots, Parameters, Accessors, Random, LinearAlgebra
+#############################################################################
+#############################################################################
+#
+# This file implements our solution for task 4.
+#                                                                               
+#############################################################################
+#############################################################################
 
-include("scenarios.jl")
+"""
+Returns two plots p1 and p2.
 
+The first plot p1 shows the simulated total mean queue length for different values of 
+R and rho^*, where we fix c_s = 0.5.
+
+The second plot p2 shows the simulated total mean queue length for different values of 
+c_s and rho^*, where we fix R = 0.75.
+"""
 function plot_mean_queue_length_different_R_and_c_s(parameters::NetworkParameters, scenario_number::Int)
     c_s_values = [0.1,0.5,1.0,2.0,4.0]
     R_values = [0.25, 0.75, 1.0]
@@ -65,13 +77,4 @@ function plot_mean_queue_length_different_R_and_c_s(parameters::NetworkParameter
     labels = ["c_s = 0.1" "c_s = 0.5" "c_s = 1" "c_s = 2" "c_s = 4" ])
 
     return p1, p2
-end
-
-scenarios = [scenario1,scenario2,scenario3,scenario4]
-
-for (i, scenario) in enumerate(scenarios)
-    p1, p2 = plot_mean_queue_length_different_R_and_c_s(scenario, i)
-    savefig(p1,"img/task_4_scenario_$(i)_different_R.png") 
-    savefig(p2,"img/task_4_scenario_$(i)_different_c_s.png") 
-    println("Finished scenario $i")
 end

@@ -1,13 +1,37 @@
+#############################################################################
+#############################################################################
+#
+# This file defines NetworkState, Customer, and NetworkStateCustomers.
+#                                                                               
+#############################################################################
+#############################################################################
+
+"""
+An abstract type to represent the state of a simulation at a point in time.
+"""
 abstract type State end
 
+"""
+This mutable struct stores the state of a simulation, where we do NOT keep track
+of individual customers.
+
+    - queues stores the current number of jobs in each queue.
+    - arrivals stores the total number of (both external and internal) 
+        arrivals at each server.
+    - server_status is a boolean vector representing whether the servers are on (1)
+        or off (0).
+    - the qth term of additional_times represents the time that a job was frozen 
+        because the qth server was off. 
+    - the qth term of last_off is a vector which stores the last time that the qth server 
+        was off or started processing a new job.
+"""
 mutable struct NetworkState <: State
-    queues::Vector{Int64} # number of jobs in each queue
-    arrivals::Vector{Int64} # total number of arrivals at each station over the simulation
-    server_status::Vector{Bool} # whether servers are on or off
+    queues::Vector{Int64} 
+    arrivals::Vector{Int64} 
+    server_status::Vector{Bool} 
     additional_times::Vector{Float64} 
     last_off::Vector{Float64} 
     parameters::NetworkParameters
-
 
     function NetworkState(parameters::NetworkParameters)
         L = parameters.L
@@ -15,13 +39,11 @@ mutable struct NetworkState <: State
     end
 end
 
-function show(state::NetworkState, time::Float64)
-    println()
-    println("time: \t\t $(time)")
-    println("queues: \t $(state.queues)")
-end
-
-
+"""
+This mutable struct represents a customer. The arrival time and departure time
+are stored. If the customer has not left the network, then departure time is 
+set to zero.
+"""
 mutable struct Customer
     arrival_time :: Float64
     departure_time :: Float64
@@ -31,11 +53,24 @@ mutable struct Customer
     end
 end
 
+"""
+This mutable struct stores the state of a simulation, where we do NOT keep track
+of individual customers.
 
+    - queues is a vector of queues which stores the customers lined up in each queue.
+    - arrivals stores the total number of (both external and internal) 
+        arrivals at each server.
+    - server_status is a boolean vector representing whether the servers are on (1)
+        or off (0).
+    - the qth term of additional_times represents the time that a job was frozen 
+        because the qth server was off. 
+    - the qth term of last_off is a vector which stores the last time that the qth server 
+        was off or started processing a new job.
+"""
 mutable struct NetworkStateCustomers <: State
-    queues::Vector{Deque{Customer}} # customers in each queue
-    arrivals::Vector{Int64} # total number of arrivals at each station over the simulation
-    server_status::Vector{Bool} # whether servers are on or off
+    queues::Vector{Deque{Customer}} 
+    arrivals::Vector{Int64} 
+    server_status::Vector{Bool} 
     additional_times::Vector{Float64} 
     last_off::Vector{Float64} 
     parameters::NetworkParameters
@@ -54,8 +89,4 @@ mutable struct NetworkStateCustomers <: State
     end
 end
 
-function show(state::NetworkState, time::Float64)
-    println()
-    println("time: \t\t $(time)")
-    println("queues: \t $(state.queues)")
-end
+

@@ -1,9 +1,14 @@
-include("../src/simulation.jl")
-using .GeneralizedUnreliableJacksonSim, Plots, Parameters, Accessors, Random, LinearAlgebra
+#############################################################################
+#############################################################################
+#
+# This file implements our solution for task 3 test 4.
+#                                                                               
+#############################################################################
+#############################################################################
 
-include("scenarios.jl")
-
-
+"""
+Returns a plot which shows the mean total queue lengths for different values of R.
+"""
 function plot_R_versus_mean_queue_length(parameters::NetworkParameters, scenario_number::Int)
     Rs = 0.1:0.01:1
     max_time = 10000
@@ -34,12 +39,6 @@ function plot_R_versus_mean_queue_length(parameters::NetworkParameters, scenario
     legend = false)
 end
 
-scenarios = [scenario1,scenario2,scenario3,scenario4]
 
-for (i, scenario) in enumerate(scenarios)
-    p = plot_R_versus_mean_queue_length(scenario, i)
-    savefig(p,"img/task_3_test_4_scenario_$(i).png") 
-    println("Finished scenario $i")
-end
 
 

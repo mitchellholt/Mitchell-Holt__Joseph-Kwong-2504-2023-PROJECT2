@@ -1,20 +1,23 @@
-include("../src/simulation.jl")
-using .GeneralizedUnreliableJacksonSim, Plots, Parameters, Accessors, Random, LinearAlgebra
+#############################################################################
+#############################################################################
+#
+# This file implements our solution for task 3 test 2.
+#                                                                               
+#############################################################################
+#############################################################################
 
-include("scenarios.jl")
-
-
-scenarios = [scenario1, scenario2, scenario3, scenario4]
-c_s_values = [0.1,0.5,1,2,4]
-max_time = 10^5
-rho_star = 0.1
-
-for (i, scenario) in enumerate(scenarios)
-    println()
-    println("Scenario $(i):")
+"""
+Prints the simulated arrival rates and theoretical arrival rates for different 
+values of c_s. We also print the sum of the square errors between the simulated 
+and theoretical results.
+"""
+function compare_arrival_rates(parameters::NetworkParameters, scenario_number::Int)
+    c_s_values = [0.1,0.5,1,2,4]
+    max_time = 10^5
+    rho_star = 0.5
     for c_s in c_s_values
-        scenario = set_scenario(scenario, rho_star = rho_star, c_s = c_s_values[i])
-        state = NetworkState(scenario)
+        parameters = set_scenario(parameters, rho_star = rho_star, c_s = c_s_values[i])
+        state = NetworkState(parameters)
         sim_net(scenario, state = state,max_time = max_time)
         println("c_s = $(c_s):")
         simulated_arrival_rates = state.arrivals/max_time 
